@@ -1,5 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
+import logging
 
 
 def create_bucket(bucket_name, region = None):
@@ -16,6 +17,9 @@ def create_bucket(bucket_name, region = None):
             location = {'LocationRestraint': region}
             client.create_bucket(Bucket = bucket_name, CreateBucketConfiguration = location)
     except ClientError as e:
+        logging.error(e)
         print("Error! {}".format(str(e)))
+        return False
 
     print("Bucket {} created!".format(bucket_name))
+    return True
