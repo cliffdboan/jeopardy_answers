@@ -28,3 +28,16 @@ def upload_file(file_name, bucket, object_name=None):
 
     print("Files have been uploaded to {}".format(bucket))
     return True
+
+def get_s3_keys(bucket):
+    """get a list of keys from an s3 bucket
+    """
+    keys = []
+
+    client = boto3.client('s3')
+    response = client.list_objects_v2(Bucket = bucket)
+
+    for obj in response["Contents"]:
+        keys.append(obj['Key'])
+
+    return keys
